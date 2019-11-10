@@ -5,7 +5,7 @@ date: "11/7/2019"
 output: github_document
 ---
 
-```{r}
+```{r, include = FALSE}
 library(tidyverse)
 library(knitr)
 library(readxl)
@@ -28,6 +28,7 @@ theme_set(theme_minimal() + theme(legend.position = "bottom"))
 ```
 
 # **Problem 1**
+## **Uploading Iris Dataset**
 ```{r}
 set.seed(10)
 
@@ -36,7 +37,10 @@ iris_with_missing = iris %>%
   mutate(Species = as.character(Species))
 
 kable(iris_with_missing)
+```
 
+## **Creating Function to Replace Missing Values in Iris Dataset**
+```{r}
 replace_missing = function(x) {
   if (is.numeric(x)) {
     x = round(replace_na(x, mean(x, na.rm = TRUE)), digits = 1)
@@ -57,8 +61,8 @@ iris_with_missing = map_df(.x = iris_with_missing, ~replace_missing(.x))
 kable(iris_with_missing)
 ```
 
-
 # **Problem 2**
+## **Reading in and Tidying Dataset**
 ```{r}
 prob2_df = list.files(path = "./data", pattern = "*.csv", full.names = T) %>% 
     map_dfr(~read.csv(.)) %>% 
@@ -84,7 +88,7 @@ prob2_plot =
 prob2_plot
 ```
 
-**Notes:** Comparing the treatment arm to the control arm, it seems that by the end of the 8 week observation period that the treatment arm had on average higher values than the control arm. Additionally, both groups started with around the same values, but began separating after the second week of observation.
+**Notes:** Comparing the treatment arm to the control arm at the beginning of the observation period, both groups started with around the same values, but by the end of the 8 week observation period (and starting around the 3 week period) the treatment arm had on average higher values than the control arm. 
 
 # **Problem 3**
 ```{r}
